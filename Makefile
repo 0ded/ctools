@@ -22,7 +22,7 @@ clean:
 	./$(EXEC)
 
 git:
-	git add Makefile $(CFILES)
+	git add .
 	git commit -m "$(shell date)"
 
 get_obj:
