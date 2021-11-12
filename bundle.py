@@ -2,7 +2,7 @@ import os
 import sys
 import re
 
-KNOWN_FLAGS = ["-r"]
+KNOWN_FLAGS = ["-r", "-u"]
 
 LINE_BREAK = "!BREAK!"
 FILE_BREAK = "!FILE!"
