@@ -46,6 +46,7 @@ def unpack(flags):
                 if i % 2 == 1:
                     print(files[i])
                     open(files[i], "w").write(files[i+1].replace(LINE_BREAK, "\r\n"))
+    quit(0)
 
 
 def extract_flags():
