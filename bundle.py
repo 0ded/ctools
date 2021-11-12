@@ -56,6 +56,7 @@ def extract_flags():
 
 
 if __name__ == "__main__":
+    sys.argv.remove(os.path.basename(__file__))
     flags = extract_flags()
     unpack(flags)
     main(sys.argv)
