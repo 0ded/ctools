@@ -12,7 +12,12 @@ $(EXEC): $(OBJS)
 	$(CC) $? -o $@
 
 /%.o: %.c %.h
+ifeq (,$(wildcard $(COMPACT_FILE)))
 	$(CC) $(COMP_FLAG) $?
+else
+	$(shell make unpack)
+	$(shell make)
+endif
 
 clean:
 	rm -rf *.o *.gch *.out $(EXEC)
