@@ -44,9 +44,8 @@ def unpack(flags):
             files = source.readlines()[0].split(FILE_BREAK)
             for i in range(1, len(files)):
                 if i % 2 == 1:
-                    print(files[i])
                     open(files[i], "w").write(files[i+1].replace(LINE_BREAK, "\r\n"))
-    quit(0)
+        quit(0)
 
 
 def extract_flags():
