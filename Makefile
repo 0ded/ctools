@@ -33,7 +33,12 @@ necromancy:
 	$(PY) guillotine.py $(CFILES)
 
 head_cut:
-	#mv *.h ./safe
 	rm -rf $(HFILES)
 
+compact:
+    $(PY) bundle.py $(CFILES) -r
+    head_cut
 
+unpack:
+    $(PY) bundle.py -u
+    necromancy
