@@ -2,13 +2,14 @@ import os
 import sys
 import re
 
+KNOWN_FLAGS = ["-r"]
 
 LINE_BREAK = "!BREAK!"
 FILE_BREAK = "!FILE!"
 OUT_FILE = "./code.source"
 
 
-def main(files, flags):
+def main(files):
     code = ""
     for filename in files:
         code += FILE_BREAK+filename+FILE_BREAK
@@ -31,5 +32,30 @@ def create_inb(filename):
     return inb
 
 
+def remove_c(flags):
+    if "-r" in flags:
+        for i in sys.argv:
+            os.remove(i)
+
+
+def unpack(flags):
+    if "-u" in flags:
+        with open(OUT_FILE, "r") as source:
+            files = source.readlines()[0].split(FILE_BREAK)
+            for i in files:
+                print(i)
+
+
+def extract_flags():
+    flags = []
+    for f in KNOWN_FLAGS:
+        if f in sys.argv:
+            flags.append(f)
+            sys.argv.remove(f)
+    return flags
+
+
 if __name__ == "__main__":
-    main(sys.argv, "")
+    flags = extract_flags()
+    main(sys.argv)
+    remove_c(flags)
