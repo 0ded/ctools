@@ -3,6 +3,7 @@ PY = python3
 CFILES := $(shell find . -name "*.c")
 HFILES := $(shell find . -name "*.h")
 OBJS := $(CFILES:%.c=%.o)
+COMPACT_FILE = code.source
 EXEC = out.bin
 DEBUG_FLAG = -g
 COMP_FLAG = -std=c99 -c
@@ -36,18 +37,20 @@ head_cut:
 	rm -rf $(HFILES)
 
 compact:
-ifeq (,$(wildcard code.source))
+ifeq (,$(wildcard $(COMPACT_FILE)))
 	$(PY) bundle.py $(CFILES) -r
-	head_cut
+	$(shell make head_cut)
 else
-	$(shell echo "code.source file exists!")
+	$(shell echo "$(COMPACT_FILE) file exists!")
 endif
 
 bundle_u:
-ifeq (,$(wildcard code.source))
-	$(shell echo "code.source file not found!")
+ifeq (,$(wildcard $(COMPACT_FILE)))
+	$(shell echo "$(COMPACT_FILE) file not found!")
 else
 	$(PY) bundle.py -u
 endif
 
-unpack: bundle_u necromancy
+unpack: bundle_u
+	$(shell make necromancy)
+	rm -rf $(COMPACT_FILE)
