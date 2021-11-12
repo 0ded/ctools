@@ -35,10 +35,10 @@ necromancy:
 head_cut:
 	rm -rf $(HFILES)
 
-compact:
-	$(head_cut)
+compact: head_cut
 	$(PY) bundle.py $(CFILES) -r
 
-unpack:
+bundle_u:
 	$(PY) bundle.py -u
-	necromancy
+
+unpack: bundle_u necromancy
