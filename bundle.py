@@ -57,5 +57,6 @@ def extract_flags():
 
 if __name__ == "__main__":
     flags = extract_flags()
+    unpack(flags)
     main(sys.argv)
     remove_c(flags)
