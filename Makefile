@@ -14,9 +14,7 @@ $(EXEC): $(OBJS)
 	$(CC) $(COMP_FLAG) $?
 
 clean:
-	rm -rf *.o $(EXEC)
-	rm -rf *.gch
-	rm -rf *.out
+	rm -rf *.o *.gch *.out $(EXEC)
 
 +run: clean $(EXEC)
 	./$(EXEC)
@@ -36,6 +34,6 @@ necromancy:
 
 head_cut:
 	#mv *.h ./safe
-	rm -rf *.h
+	rm -rf $(HFILES)
 
 
