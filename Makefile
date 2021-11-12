@@ -13,7 +13,7 @@ ifeq (,$(wildcard $(COMPACT_FILE)))
 	$(CC) $? -o $@
 else
 	$(shell make unpack)
-	$(shell make)
+#	$(shell make)
 endif
 
 /%.o: %.c %.h
