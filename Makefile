@@ -35,10 +35,19 @@ necromancy:
 head_cut:
 	rm -rf $(HFILES)
 
-compact: head_cut
+compact:
+ifeq (,$(wildcard code.source))
 	$(PY) bundle.py $(CFILES) -r
+	head_cut
+else
+	$(shell echo "code.source file exists!")
+endif
 
 bundle_u:
+ifeq (,$(wildcard code.source))
+	$(shell echo "code.source file not found!")
+else
 	$(PY) bundle.py -u
+endif
 
 unpack: bundle_u necromancy
