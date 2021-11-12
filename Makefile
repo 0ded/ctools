@@ -36,7 +36,7 @@ head_cut:
 	rm -rf $(HFILES)
 
 compact:
-	head_cut
+	$(head_cut)
 	$(PY) bundle.py $(CFILES) -r
 
 unpack:
