@@ -20,7 +20,7 @@ clean:
 	./$(EXEC)
 
 git:
-	git add .
+	git add *
 	git commit -m "$(shell date)"
 
 get_obj:
