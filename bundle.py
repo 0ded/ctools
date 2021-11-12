@@ -42,8 +42,8 @@ def unpack(flags):
     if "-u" in flags:
         with open(OUT_FILE, "r") as source:
             files = source.readlines()[0].split(FILE_BREAK)
-            for i in files:
-                print(i.replace(LINE_BREAK, "\r\n"))
+            for i in range(0, len(files)):
+                print(i+ " " +files[i].replace(LINE_BREAK, "\r\n"))
 
 
 def extract_flags():
