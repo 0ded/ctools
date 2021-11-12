@@ -9,15 +9,15 @@ DEBUG_FLAG = -g
 COMP_FLAG = -std=c99 -c
 
 $(EXEC): $(OBJS)
-	$(CC) $? -o $@
-
-/%.o: %.c %.h
 ifeq (,$(wildcard $(COMPACT_FILE)))
-	$(CC) $(COMP_FLAG) $?
+	$(CC) $? -o $@
 else
 	$(shell make unpack)
 	$(shell make)
 endif
+
+/%.o: %.c %.h
+	$(CC) $(COMP_FLAG) $?
 
 clean:
 	rm -rf *.o *.gch *.out $(EXEC)
