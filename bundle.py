@@ -43,7 +43,8 @@ def unpack(flags):
         with open(OUT_FILE, "r") as source:
             files = source.readlines()[0].split(FILE_BREAK)
             for i in range(0, len(files)):
-                print(str(i)+ " " +files[i].replace(LINE_BREAK, "\r\n"))
+                if i %2 == 0:
+                    print(str(i) + " " + files[i].replace(LINE_BREAK, "\r\n"))
 
 
 def extract_flags():
