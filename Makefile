@@ -32,6 +32,7 @@ clean:
 	@echo "-----------------------------"
 	./$(EXEC)
 	@echo "-----------------------------"
+	@$(MAKE) -s clean
 
 git:
 	git add .
@@ -44,14 +45,21 @@ get_source:
 	@echo "$(CFILES)"
 
 necromancy:
+ifeq (,$(wildcard guillotine.py))
+	@echo "Error creating headers, reclone repo"
+else
 	@$(PY) guillotine.py $(CFILES)
 	@echo "creating headers"
+endif
 
 head_cut:
 	@rm -rf $(HFILES)
 	@echo "headers removed"
 
 compact: clean
+ifeq (,$(wildcard bundle.py))
+	@echo "Error bundeling, reclone repo"
+else
 ifeq (,$(wildcard $(COMPACT_FILE)))
 	@$(PY) bundle.py $(CFILES) -r
 	@$(MAKE) -s head_cut
@@ -59,8 +67,12 @@ ifeq (,$(wildcard $(COMPACT_FILE)))
 else
 	@echo "$(COMPACT_FILE) file exists!"
 endif
+endif
 
 unpack:
+ifeq (,$(wildcard bundle.py))
+	@echo "Error unpacking, reclone repo"
+else
 ifeq (,$(wildcard $(COMPACT_FILE)))
 	@echo "$(COMPACT_FILE) file not found!"
 else
@@ -68,4 +80,5 @@ else
 	@echo "extracted"
 	@rm -rf $(COMPACT_FILE)
 	@$(MAKE) -s necromancy
+endif
 endif
