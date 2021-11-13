@@ -1,3 +1,5 @@
+# Created by Oded Ginat 2021
+# For more information: https://github.com/0ded/ctools
 CC = gcc
 PY = python3
 CFILES = $(shell find . -name "*.c")

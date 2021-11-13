@@ -1,6 +1,6 @@
 # created by Oded Ginat 2021
 # Tested on python 3.8 and above
-
+# For more information: https://github.com/0ded/ctools
 import os
 import sys
 import re
