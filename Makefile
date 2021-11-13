@@ -1,7 +1,7 @@
 CC = gcc
 PY = python3
-CFILES := $(shell find . -name "*.c")
-HFILES := $(shell find . -name "*.h")
+CFILES = $(shell find . -name "*.c")
+HFILES = $(shell find . -name "*.h")
 OBJS := $(CFILES:%.c=%.o)
 COMPACT_FILE = code.source
 EXEC = out.bin
@@ -10,52 +10,60 @@ COMP_FLAG = -std=c99 -c
 
 $(EXEC): $(OBJS)
 ifeq (,$(wildcard $(COMPACT_FILE)))
-	$(CC) $? -o $@
+	@$(CC) $? -o $@
+	@echo "compiled"
 else
-	$(shell make unpack)
-#	$(shell make)
+	@$(MAKE) -s unpack
+	@$(MAKE) -s
 endif
 
 /%.o: %.c %.h
-	$(CC) $(COMP_FLAG) $?
+	@$(CC) $(COMP_FLAG) $?
 
 clean:
-	rm -rf *.o *.gch *.out $(EXEC)
+	@rm -rf *.o *.gch *.out $(EXEC)
+	@echo "binaries terminated"
 
 +run: clean $(EXEC)
+	@echo "-----------------------------"
+	@echo "-----------------------------"
+	@echo "-----------------------------"
 	./$(EXEC)
+	@echo "-----------------------------"
 
 git:
 	git add .
 	git commit -m "$(shell date)"
 
 get_obj:
-	echo $(OBJS)
+	@echo $(OBJS)
 
 get_source:
-	echo $(CFILES)
+	@echo "$(CFILES)"
 
 necromancy:
-	$(PY) guillotine.py $(CFILES)
+	@$(PY) guillotine.py $(CFILES)
+	@echo "creating headers"
 
 head_cut:
-	rm -rf $(HFILES)
+	@rm -rf $(HFILES)
+	@echo "headers removed"
 
-compact:
+compact: clean
 ifeq (,$(wildcard $(COMPACT_FILE)))
-	$(PY) bundle.py $(CFILES) -r
-	$(shell make head_cut)
+	@$(PY) bundle.py $(CFILES) -r
+	@$(MAKE) -s head_cut
+	@echo "source code packed"
 else
-	$(shell echo "$(COMPACT_FILE) file exists!")
+	@echo "$(COMPACT_FILE) file exists!"
 endif
 
-bundle_u:
+unpack:
 ifeq (,$(wildcard $(COMPACT_FILE)))
-	$(shell echo "$(COMPACT_FILE) file not found!")
+	@echo "$(COMPACT_FILE) file not found!"
 else
-	$(PY) bundle.py -u
+	@$(PY) bundle.py -u
+	@echo "extracted"
+	@rm -rf $(COMPACT_FILE)
+	@$(MAKE) -s necromancy
 endif
-
-unpack: bundle_u
-	$(shell make necromancy)
-	rm -rf $(COMPACT_FILE)
