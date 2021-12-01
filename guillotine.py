@@ -10,11 +10,22 @@ def main():
     for i in range(1, len(sys.argv)):
         filename = sys.argv[i]
         inb = create_inb(filename)
+        defs = get_typdef_struct(inb)
         inb = remove_block(inb)
         inb = remove_commands(inb)
         inb = remove_includes(inb)
         inb = remove_defines(inb)
-        create_h_file(filename, inb)
+        create_h_file(filename, defs, inb)
+
+
+def get_typdef_struct(inb):
+    inb = inb.replace("\n", "!!!")
+    out = ""
+    inbs = re.findall("typedef struct.*?}.*?;", inb)
+    for i in inbs:
+        i = i.replace("!!!", "\n")
+        out += i + "\n"
+    return out
 
 
 def get_funcs_split(filename):
@@ -94,16 +105,17 @@ def remove_defines(inb):
     return inb
 
 
-def create_h_file(filename, funcs):
+def create_h_file(filename, defs, funcs):
     h_file = ".h".join(filename.rsplit(".c", 1))
     def_name = h_file.upper().replace(".", "_").replace("_/", "")
     open(h_file, 'w').close()
     with open(h_file, "a") as file:
         file.write("#ifndef " + def_name + "\n")
         file.write("#define " + def_name + "\n")
+        file.write(defs)
         for func in funcs.split("\n"):
             if func and not func.isspace():
-                file.write(func +";\n")
+                file.write(func + ";\n")
         file.write("#endif")
         file.close()
 
