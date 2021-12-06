@@ -19,7 +19,7 @@ else
 	@$(MAKE) -s
 endif
 
-/%.o: %.c %.h
+%.o: %.c %.h
 	@$(CC) $(COMP_FLAG) $?
 
 clean:
